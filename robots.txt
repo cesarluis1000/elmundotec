@@ -1,0 +1,11 @@
+User-agent: Yandex
+User-agent: sogou
+User-agent: TurnitinBot
+User-agent: AhrefsBot
+User-agent: VeBot
+Disallow: /
+
+User-agent: *
+Disallow: /*?
+Disallow: /*page=
+Sitemap: https://www.elmundotec.com/sitemap.xml
