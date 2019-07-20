@@ -47,17 +47,31 @@
     			<span itemprop="brand"><?php echo $producto['Producto']['codigo']; ?></span>
     			&nbsp;
     		</dd>
-    		<dt><?php echo __('Stock'); ?></dt>
+    		<dt>
+    			<span class="h4">
+    				<?php echo __('Stock'); ?>    				
+    			</span>    			
+    		</dt>
     		<dd>
+    			<span class="h4">
     			<?php echo h($producto['Producto']['stock']); ?>
     			&nbsp;
+    			</span>
     		</dd>
     		<dt><?php echo __('Precio'); ?></dt>
     		<dd  itemprop="offers" itemscope itemtype="http://schema.org/Offer">				
-    			<?php 
-                	   $precio = $producto['Producto']['precio']*1.18*1.1;
-                	   $precio = number_format($precio, 0, '.', ''); 
-                ?>
+    			                
+                <?php 
+            	   $valor =  $producto['Producto']['precio'];
+            	   switch($valor){
+            	       case $valor < 100: $incremento=1.10; break;
+            	       case $valor < 200: $incremento=1.08; break;
+            	       case $valor < 300: $incremento=1.06; break;
+            	       default          : $incremento=1.05;
+            	   }
+            	   $precio = $producto['Producto']['precio']*1.18*$incremento;
+            	   $precio = number_format($precio, 0, ',', ' '); 
+            	?>
                 
     			<?php $hoy = date("Y-m-d H:i:s"); ?>
     			<?php if (isset($producto['Promocion']) && $hoy <= $producto['Promocion']['fecha_fin']): ?>
@@ -68,7 +82,7 @@
     					</del>
     				</strong>
         			<?php 
-                    	   $precio_promocion = $producto['Promocion']['precio']*1.18*1.1;
+                    	   $precio_promocion = $producto['Promocion']['precio']*1.18*1.08;
                     	   $precio_promocion = number_format($precio_promocion, 0, '.', ''); 
                     ?>
                     <br>
