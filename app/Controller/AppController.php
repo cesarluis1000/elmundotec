@@ -84,7 +84,7 @@ class AppController extends Controller {
     
     private function __ecommerce(){
         //Acciones que utilizarar el layout ecommerce
-        $this->acciones_ecommerce = array('buscador','detalle','sitemap','forma_pago');
+        $this->acciones_ecommerce = array('buscador','detalle','detalle2','sitemap','forma_pago');
         if (in_array($this->action, $this->acciones_ecommerce)){
             $this->layout = 'ecommerce';
 	        

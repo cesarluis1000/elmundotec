@@ -1,24 +1,149 @@
 <style>
-<!--
-.float{
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:#25d366;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-  font-size:30px;
-	box-shadow: 2px 2px 3px #999;
-  z-index:100;
+    #float-cta {
+	position: fixed;
+	bottom: 35px;
+	right: 35px;
+	z-index: 9999999999
 }
-
-.my-float{
-	margin-top:16px;
+#float-cta a {
+	display: inline-block;
+	background-color: #25d366;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	border-radius: 50%;
+	width: 55px;
+	height: 55px;
+	color: #fff;
+	-webkit-box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.3);
+	box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 30px;
+	transition: 0.3s
 }
--->
+#float-cta a:hover,
+#float-cta a:focus {
+	text-decoration: none;
+	background-color: #128c7e
+}
+#float-cta a .fa-times,
+#float-cta a .fa-whatsapp {
+	transition: 0.3s
+}
+#float-cta a .fa-times {
+	visibility: hidden;
+	opacity: 0;
+	display: none
+}
+#float-cta a.open .fa-times {
+	visibility: visible;
+	opacity: 1;
+	display: block
+}
+#float-cta a.open .fa-whatsapp {
+	visibility: hidden;
+	opacity: 0;
+	display: none
+}
+#float-cta span {
+	position: absolute;
+	left: -150px;
+	width: 190px;
+	top: 16px;
+	background-color: #999;
+	color: #fff;
+	padding: 5px 3px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	-ms-border-radius: 15px;
+	border-radius: 15px;
+	text-align: center;
+	letter-spacing: 0.5px;
+	opacity: 0;
+	transition: 0.3s;
+	visibility: hidden
+}
+#float-cta .whatsapp-msg-container {
+	visibility: hidden;
+	position: absolute;
+	right: 0;
+	bottom: -20px;
+	opacity: 0;
+	transform: translateY(-70px);
+	width: 300px;
+	overflow: hidden;
+	-webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	border-radius: 10px;
+	background-color: #fff;
+	transition: 0.3s
+}
+#float-cta .whatsapp-msg-container.open {
+	visibility: visible;
+	bottom: 0;
+	opacity: 1
+}
+#float-cta .whatsapp-msg-header {
+	text-align: center;
+	background-color: #25d366;
+	color: #fff;
+	padding: 10px
+}
+#float-cta .whatsapp-msg-header h6 {
+	font-weight: 700;
+	font-size: 16px;
+	font-size: 1rem;
+	margin: 0
+}
+#float-cta .whatsapp-msg-body {
+	padding: 5px
+}
+#float-cta .whatsapp-msg-body textarea {
+	width: 100%;
+	height: 200px;
+	border: none;
+	padding: 15px
+}
+#float-cta .whatsapp-msg-body textarea.placeholder,
+#float-cta .whatsapp-msg-body textarea::placeholder {
+	color: lightgray;
+	font-size: 14px
+}
+#float-cta .whatsapp-msg-footer {
+	text-align: center;
+	background-color: #fff;
+	border-top: 1px solid lightgray;
+	padding: 5px
+}
+#float-cta .btn-whatsapp-send {
+	display: block;
+	width: 100%;
+	border: 2px solid #25d366;
+	font-weight: 700;
+	color: #fff;
+	background-color: #25d366;
+	padding: 7px 15px;
+	transition: 0.3s
+}
+#float-cta .btn-whatsapp-send:hover {
+	background-color: #fff;
+	color: #25d366
+}
+#float-cta:hover span {
+	opacity: 1;
+	left: -200px;
+	visibility: visible
+}
+#float-cta.open span {
+	display: none
+}
 </style>
 <div itemscope itemtype="http://schema.org/Product" class="row">
 	<meta itemprop="url" content="<?php echo $this->Html->url( null, true ); ?>">
@@ -35,6 +160,27 @@
         	?>
     	<?php endif; ?>
 	</div>
+	
+    <div id="float-cta">
+        <span>Envianos un whatsapp!</span>
+        <a href="javascript:void(0);">
+            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+        <div class="whatsapp-msg-container">
+            <div class="whatsapp-msg-header">
+                <h5>WhatsApp Chat</h5>
+            </div>
+            <div class="whatsapp-msg-body">
+                <textarea name="whatsapp-msg" class="whatsapp-msg-textarea" placeholder="Hola, podés consultar vía whatsapp...">Hola! Quisiera más información sobre el producto: <?php echo h($producto['Producto']['nombre']); ?> Código: <?php echo h($producto['Producto']['id']); ?> Stock: <?php echo h($producto['Producto']['stock']); ?>
+                </textarea>
+            </div>
+            <div class="whatsapp-msg-footer">
+                <button type="button" class="btn-whatsapp-send">Enviar</button>
+            </div>
+        </div>
+    </div>
+	
   	<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
   		<br>
   		<h4 itemprop="name"><?php echo h($producto['Producto']['nombre']); ?></h4>
@@ -43,10 +189,6 @@
     		<dd>
     			<span itemprop="productID"><?php echo h($producto['Producto']['id']); ?></span>
     			&nbsp;
-    			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-                <a href="https://api.whatsapp.com/send?phone=51998886686&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20producto:%20<?php echo h($producto['Producto']['id']); ?>" class="float" target="_blank">
-                <i class="fa fa-whatsapp my-float"></i>
-                </a>
     		</dd>
     		<dt><?php echo __('Descripcion'); ?></dt>
     		<dd>
