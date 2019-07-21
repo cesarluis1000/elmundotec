@@ -193,8 +193,9 @@
         var mobileDetect = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         if (mobileDetect) {
             $('#float-cta .whatsapp-msg-container').css('display','none');
-            $('#float-cta > a').on('click', function(){
-                window.location = 'https://api.whatsapp.com/send?phone=51998886686';
+            $('#float-cta > a').on('click', function(){            	
+                var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
+                window.location = 'https://api.whatsapp.com/send?phone=51998886686&text='+textEncode;
             });
         } else {
             $('#float-cta > a').click(function(){

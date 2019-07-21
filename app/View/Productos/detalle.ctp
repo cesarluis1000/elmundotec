@@ -56,10 +56,6 @@
 	background-color: #999;
 	color: #fff;
 	padding: 5px 3px;
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	-ms-border-radius: 15px;
-	border-radius: 15px;
 	text-align: center;
 	letter-spacing: 0.5px;
 	opacity: 0;
@@ -77,11 +73,7 @@
 	overflow: hidden;
 	-webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);
-	box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	-ms-border-radius: 10px;
-	border-radius: 10px;
+	box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.1);	
 	background-color: #fff;
 	transition: 0.3s
 }
@@ -99,7 +91,6 @@
 #float-cta .whatsapp-msg-header h6 {
 	font-weight: 700;
 	font-size: 16px;
-	font-size: 1rem;
 	margin: 0
 }
 #float-cta .whatsapp-msg-body {
@@ -169,11 +160,10 @@
         </a>
         <div class="whatsapp-msg-container">
             <div class="whatsapp-msg-header">
-                <h5>WhatsApp Chat</h5>
+                <h6>WhatsApp Chat</h6>
             </div>
             <div class="whatsapp-msg-body">
-                <textarea name="whatsapp-msg" class="whatsapp-msg-textarea" placeholder="Hola, podés consultar vía whatsapp...">Hola! Quisiera más información sobre el producto: <?php echo h($producto['Producto']['nombre']); ?> Código: <?php echo h($producto['Producto']['id']); ?> Stock: <?php echo h($producto['Producto']['stock']); ?> 
-                </textarea>
+                <textarea name="whatsapp-msg" class="whatsapp-msg-textarea" placeholder="Hola, podés consultar vía whatsapp...">Hola! Quisiera más información sobre el producto: <?php echo h($producto['Producto']['nombre']); ?> Código: <?php echo h($producto['Producto']['id']); ?> Stock: <?php echo h($producto['Producto']['stock']); ?></textarea>
             </div>
             <div class="whatsapp-msg-footer">
                 <button type="button" class="btn-whatsapp-send">Enviar</button>
