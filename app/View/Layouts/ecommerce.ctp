@@ -30,7 +30,7 @@
     	</title>    	
 	<?php endif;?>
 	    
-    <?php $descripcion = 'Compra por Internet en elmundotec.com de forma segura y facil, encontraras miles de productos y OFERTAS increibles. Envios a todo el PERU.'; ?>
+    <?php $descripcion = 'Compra por Internet en elmundotec.com de forma segura y fácil, encontrarás miles de productos y OFERTAS increíbles. Envíos a todo el PERÚ.'; ?>
     
     <?php if ($this->action == 'detalle'):?>
     	<meta property="og:title" content="<?php echo 'Compra '.$this->App->nombreMostrar($producto['Producto']['nombre']).' online | elmuncotec.com'; ?>" />
@@ -45,7 +45,7 @@
     	<meta property="og:url" content="<?php echo $this->Html->url( null, true ); ?>" />
     <?php elseif ($this->action == 'buscador'): ?>     	
     	<meta property="og:title" content="<?php echo $titulo; ?>" />
-    	<?php $descripcion = "Compra {$titulo} por Internet en elmundotec.com de forma segura y facil, encontraras miles de productos y OFERTAS increibles. Envios a todo el PERU."; ?>
+    	<?php $descripcion = "Compra {$titulo} por Internet en elmundotec.com de forma segura y fácil, encontrarás miles de productos y OFERTAS increíbles. Envíos a todo el PERÚ."; ?>
     	<meta name="og:description" content="<?php echo $descripcion; ?>" />		
     	<meta property="og:image" content="<?php echo $this->Html->url('/img/elmundotec_producto.png',true); ?>" />
     	<meta property="og:url" content="<?php echo $this->Html->url( null, true ); ?>" />
@@ -188,5 +188,33 @@
     <?php echo $this->Html->script('locale/es.min.js'); ?>
     <?php echo $this->Html->script('analyticstracking.js'); ?>
 	<?php echo $this->Html->script('elmundotec.js'); ?>
+	<script>
+    function initWhatsappChat() {
+        'use strict';
+        var mobileDetect = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (mobileDetect) {
+            $('#float-cta .whatsapp-msg-container').css('display','none');
+            $('#float-cta > a').on('click', function(){
+            	var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
+                window.location = 'https://api.whatsapp.com/send?phone=51998886686&text='+textEncode;
+            });
+        } else {
+            $('#float-cta > a').click(function(){
+                $(this).toggleClass('open');
+                $('#float-cta .whatsapp-msg-container').toggleClass('open');
+                $('#float-cta').toggleClass('open');
+            });
+            $('.btn-whatsapp-send').on('click', function(event){
+                event.stopPropagation();
+            });
+            $('.btn-whatsapp-send').click(function() {
+                var baseUrl = 'https://web.whatsapp.com/send?phone=51998886686&text=';
+                var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
+                window.open(baseUrl + textEncode, '_blank');
+            });
+        }
+    }
+    initWhatsappChat();
+    </script>
 </body>
 </html>
