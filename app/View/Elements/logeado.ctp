@@ -6,7 +6,7 @@
     		<a href="tel://998886686">&nbsp;<span class="fa fa-whatsapp" aria-hidden="true" style="font-size:16px"></span>&nbsp;998886686&nbsp;</a>
     		 -->     		
        		<a href="tel://998886686">&nbsp;<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;Rpc:998886686&nbsp;</a>       		
-       		<a href="tel://998886686">&nbsp;<span class="fa fa-whatsapp" aria-hidden="true" style="font-size:16px"></span>&nbsp;998886686&nbsp;</a>
+       		<a href="https://api.whatsapp.com/send?phone=51998886686&text=Hola%21%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20">&nbsp;<span class="fa fa-whatsapp" aria-hidden="true" style="font-size:16px"></span>&nbsp;998886686&nbsp;</a>
        		<span class="fa fa-bank" aria-hidden="true" style="font-size:16px"></span>&nbsp;Interbank: 041-3102316450 &nbsp;
        		<span class="fa fa-address-card-o" aria-hidden="true" style="font-size:16px"></span>&nbsp;Ruc: 10426840249       		
        	</h6>
