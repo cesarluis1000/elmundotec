@@ -67,7 +67,8 @@ class ProductosController extends AppController {
 	    }
 	
 	    $contents = json_decode($contents, true);
-	
+	    array_walk_recursive($contents, function(&$v) { $v = strip_tags($v); });
+	    
 	    if(isset($contents[0]['error'])){
 	        pr($contents);
 	        exit;
@@ -92,6 +93,7 @@ class ProductosController extends AppController {
 	    foreach($a_Items AS $codigoItem => $a_Item){
 	        pr($codigoItem);
 	        pr($a_Item['Name']);
+	        //pr($a_Item);
 	        //pr($a_Item['Stock']);
 	        	
 	        //Actualizacion de Categoria
@@ -256,6 +258,8 @@ class ProductosController extends AppController {
 	            }
 	            $Producto['Producto']['id'] = $this->Producto->getLastInsertId();
 	        }else{
+	            $Producto['Producto']['nombre'] 		= $a_Item['Name'];
+	            $Producto['Producto']['descripcion'] 	= $a_Item['TechInfoLarge'];
 	            $Producto['Producto']['precio'] 		= $a_Item['Price'];
 	            $Producto['Producto']['stock'] 			= $a_Item['Stock'];
 	            $Producto['Producto']['imagen'] 		= $imagen;
