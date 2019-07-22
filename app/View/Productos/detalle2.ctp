@@ -1,5 +1,4 @@
 <div itemscope itemtype="http://schema.org/Product" class="row">
-	<meta itemprop="url" content="<?php echo $this->Html->url( null, true ); ?>">
   	<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
   		<br>
   		<?php if($producto['Producto']['imagen'] == 3):?>
@@ -39,7 +38,7 @@
       	<dl>
     		<dt><?php echo 'Nro de Producto'; ?></dt>
     		<dd>
-    			<span itemprop="productID"><?php echo h($producto['Producto']['id']); ?></span>
+    			<span itemprop="sku"><?php echo h($producto['Producto']['id']); ?></span>
     			&nbsp;
     		</dd>
     		<dt><?php echo __('Descripcion'); ?></dt>
@@ -64,7 +63,7 @@
     		</dd>
     		<dt><?php echo __('Cod Proveedor'); ?></dt>
     		<dd>
-    			<span itemprop="brand"><?php echo $producto['Producto']['codigo']; ?></span>
+    			<span><?php echo $producto['Producto']['codigo']; ?></span>
     			&nbsp;
     		</dd>
     		<dt><?php echo __('Stock'); ?></dt>
@@ -73,7 +72,8 @@
     			&nbsp;
     		</dd>
     		<dt><?php echo __('Precio'); ?></dt>
-    		<dd  itemprop="offers" itemscope itemtype="http://schema.org/Offer">				
+    		<dd  itemprop="offers" itemscope itemtype="http://schema.org/Offer">    		
+				<meta itemprop="url" content="<?php echo $this->Html->url( null, true ); ?>">				
     			<?php 
             	   $valor =  $producto['Producto']['precio'];
             	   switch($valor){
