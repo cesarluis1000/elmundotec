@@ -138,6 +138,24 @@
       }, {scope: 'public_profile, email'});       
   }
 
+    window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '288605394610781',
+          xfbml      : true,
+          version    : 'v3.3'
+        });
+        FB.AppEvents.logPageView();
+    };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   
+/*
   (function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
 	  if (d.getElementById(id)) return;
@@ -145,7 +163,7 @@
 	  js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.9&appId=288605394610781";
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
-
+*/
 </script>
 	<div id="container">
 		<?php //pr($s_url); ?>
