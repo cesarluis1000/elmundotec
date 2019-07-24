@@ -4,7 +4,19 @@
 	<meta charset="UTF-8">
 	<!-- <?php echo $this->Html->charset(); ?> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+      	  ga('create', 'UA-101245640-1', 'auto');
+      	  ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
 	
 	<?php if ($this->action == 'detalle'):?>
 		<title>
@@ -43,15 +55,15 @@
     	<meta property="og:description" content="<?php echo $this->App->nombreMostrar($producto['Producto']['descripcion'],200); ?>" />    	
     	<!-- END FACEBOOK COMPARTIR -->
     <?php elseif ($this->action == 'buscador'): ?>     	
-    	<meta property="og:title" content="<?php echo $titulo; ?>" />
+    	<meta property="og:title" 		content="<?php echo $titulo; ?>" />
     	<?php $descripcion = "Compra {$titulo} por Internet en elmundotec.com de forma segura y fácil, encontrarás miles de productos y OFERTAS increíbles. Envíos a todo el PERÚ."; ?>
-    	<meta name="og:description" content="<?php echo $descripcion; ?>" />		
-    	<meta property="og:image" content="<?php echo $this->Html->url('/img/elmundotec_producto.png',true); ?>" />
-    	<meta property="og:url" content="<?php echo $this->Html->url( null, true ); ?>" />
+    	<meta property="og:description" content="<?php echo $descripcion; ?>" />		
+    	<meta property="og:image" 		content="<?php echo $this->Html->url('/img/elmundotec_producto.png',true); ?>" />
+    	<meta property="og:url" 		content="<?php echo $this->Html->url( null, true ); ?>" />
 	<?php endif;?>
 	
-		<meta name="description" content="<?php echo $descripcion; ?>" />
-    	<meta name="keywords" content="elmundotec, comprar online, elmundotec.com, comprar por internet, comprar en peru, comprar online en peru, comprar por internet en peru" />	
+		<meta name="description" 	content="<?php echo $descripcion; ?>" />
+    	<meta name="keywords" 		content="elmundotec, comprar online, elmundotec.com, comprar por internet, comprar en peru, comprar online en peru, comprar por internet en peru" />	
 	<?php 
 		echo $this->Html->meta('icon');
 	?>
@@ -195,10 +207,9 @@
     <?php echo $this->Html->script('moment.min.js'); ?>
     <?php echo $this->Html->script('bootstrap-datetimepicker.min.js'); ?>
     <?php echo $this->Html->script('locale/es.min.js'); ?>
-    <?php echo $this->Html->script('analyticstracking.js'); ?>
 	<?php echo $this->Html->script('elmundotec.js'); ?>
 	<!-- WHATSAPP CHAT -->
-	<script>
+	<script type="text/javascript">
         function initWhatsappChat() {
             'use strict';
             var mobileDetect = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
