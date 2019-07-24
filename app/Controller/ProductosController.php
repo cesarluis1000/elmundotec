@@ -510,8 +510,28 @@ class ProductosController extends AppController {
 		$params = array('order'=>'Promocion.fecha_fin desc', 'conditions' => array('Promocion.producto_id' => $producto['Producto']['id'],'Promocion.descripcion NOT LIKE'=>'%cliente%'),'recursive' => -1);
 	    $Promocion = $this->Producto->Promocion->find('first',$params);
 		//pr($Promocion);
-	    $producto['Categoria'] = $subcategoria['Categoria'];
-	    $producto['Promocion'] = (isset($Promocion['Promocion']))?$Promocion['Promocion']:null;
+	    $producto['Categoria']                 = $subcategoria['Categoria'];
+	    $producto['Promocion']                 = (isset($Promocion['Promocion']))?$Promocion['Promocion']:null;
+	    $producto['Producto']['image']         = ($producto['Producto']['imagen'] == 3) ? 'elmundotec_producto.png' : strtolower($producto['Producto']['codigo']).'.jpg';
+	    
+	    $valor =  $producto['Producto']['precio'];
+	    switch($valor){
+	        case $valor < 100: $incremento=1.10; break;
+	        case $valor < 200: $incremento=1.08; break;
+	        case $valor < 300: $incremento=1.06; break;
+	        default          : $incremento=1.05;
+	    }
+	    $precio                         = $producto['Producto']['precio']*1.18*$incremento;	    
+	    $producto['Producto']['precio'] = number_format($precio, 0, ',', ' '); 
+	    
+	    if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
+	        $precio_promocion                  = $producto['Promocion']['precio']*1.18*1.08;
+	        $producto['Promocion']['precio']   = number_format($precio_promocion, 0, '.', '');
+	        $producto['Producto']['title_precio'] = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+	    }else{
+	        $producto['Producto']['title_precio'] = ' | Precio: S/. '.$producto['Producto']['precio'];
+	    }
+	    
 	    $this->set('producto', $producto);
 	}
 	
@@ -526,8 +546,28 @@ class ProductosController extends AppController {
 		$params = array('order'=>'Promocion.fecha_fin desc', 'conditions' => array('Promocion.producto_id' => $producto['Producto']['id'],'Promocion.descripcion NOT LIKE'=>'%cliente%'),'recursive' => -1);
 	    $Promocion = $this->Producto->Promocion->find('first',$params);
 		//pr($Promocion);
-	    $producto['Categoria'] = $subcategoria['Categoria'];
-	    $producto['Promocion'] = (isset($Promocion['Promocion']))?$Promocion['Promocion']:null;
+	    $producto['Categoria']                 = $subcategoria['Categoria'];
+	    $producto['Promocion']                 = (isset($Promocion['Promocion']))?$Promocion['Promocion']:null;
+	    $producto['Producto']['image']         = ($producto['Producto']['imagen'] == 3) ? 'elmundotec_producto.png' : strtolower($producto['Producto']['codigo']).'.jpg';
+	    
+	    $valor =  $producto['Producto']['precio'];
+	    switch($valor){
+	        case $valor < 100: $incremento=1.10; break;
+	        case $valor < 200: $incremento=1.08; break;
+	        case $valor < 300: $incremento=1.06; break;
+	        default          : $incremento=1.05;
+	    }
+	    $precio = $producto['Producto']['precio']*1.18*$incremento;
+	    $producto['Producto']['precio'] = number_format($precio, 0, ',', ' ');
+	    
+	    if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
+	        $precio_promocion                  = $producto['Promocion']['precio']*1.18*1.08;
+	        $producto['Promocion']['precio']   = number_format($precio_promocion, 0, '.', '');
+	        $producto['Producto']['title_precio'] = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+	    }else{
+	        $producto['Producto']['title_precio'] = ' | Precio: S/. '.$producto['Producto']['precio'];
+	    }
+	    
 	    $this->set('producto', $producto);
 	}
 /**

@@ -33,16 +33,15 @@
     <?php $descripcion = 'Compra por Internet en elmundotec.com de forma segura y fácil, encontrarás miles de productos y OFERTAS increíbles. Envíos a todo el PERÚ.'; ?>
     
     <?php if ($this->action == 'detalle'):?>
-    	<meta property="og:title" content="<?php echo 'Compra '.$this->App->nombreMostrar($producto['Producto']['nombre']).' online | elmuncotec.com'; ?>" />
-    	<meta property="og:type" content="producto" /> 
-    	<?php $descripcion = $this->App->nombreMostrar($producto['Producto']['descripcion'],200); ?>
-    	<meta property="og:description" content="<?php echo $descripcion; ?>" />
-    	<?php if($producto['Producto']['imagen'] == 3):?>
-    		<meta property="og:image" content="<?php echo $this->Html->url('/img/elmundotec_producto.png',true); ?>" />
-    	<?php else: ?>
-    		<meta property="og:image" content="<?php echo $this->Html->url('/img/productos/'.strtolower($producto['Producto']['codigo']).'.jpg',true); ?>" />
-    	<?php endif; ?>
-    	<meta property="og:url" content="<?php echo $this->Html->url( null, true ); ?>" />
+    	<!-- FACEBOOK COMPARTIR -->
+    	<meta property="og:url" 		content="<?php echo $this->Html->url( null, true ); ?>" />
+    	<meta property="og:type" 		content="producto" />    	
+    	<meta property="og:image:width" content="200" />
+		<meta property="og:image:height" content="200" />
+		<meta property="og:image" 		content="<?php echo $this->Html->url('/mg/productos/'.$producto['Producto']['image'],true); ?>" />
+    	<meta property="og:title" 		content="<?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],60).$producto['Producto']['title_precio']; ?>" />    	 
+    	<meta property="og:description" content="<?php echo $this->App->nombreMostrar($producto['Producto']['descripcion'],200); ?>" />    	
+    	<!-- END FACEBOOK COMPARTIR -->
     <?php elseif ($this->action == 'buscador'): ?>     	
     	<meta property="og:title" content="<?php echo $titulo; ?>" />
     	<?php $descripcion = "Compra {$titulo} por Internet en elmundotec.com de forma segura y fácil, encontrarás miles de productos y OFERTAS increíbles. Envíos a todo el PERÚ."; ?>
@@ -103,68 +102,60 @@
 	
 </head>
 <body>
-<div id="fb-root"></div>
-<script type="text/javascript">
-
-  function validarUsuario() {  
-      FB.getLoginStatus(function(response) {
-          if(response.status == 'connected') {  
-              FB.api('/me', {"fields":"id,name,email,first_name,last_name,birthday,gender,age_range,hometown"}, function(response){
-            	  console.log(JSON.stringify(response));
-            	  $.post("https://www.elmundotec.com/users/login", 
-          	            {data : response}, 
-          	            function(postResponse){
-          	                if(postResponse == 'registered') {
-          	                	console.log(postResponse);
-          	                	var loc = "https://www.elmundotec.com"; // or a new URL
-          	                	//window.location.href = loc + '?n=' + new Date().getTime(); // random number
-          	                	location.reload();
-          	                } else if( postResponse == 'authenticated') {
-          	                        // do after login stuff
-          	                }
-          	            });
-              });  
-          } else if(response.status == 'not_authorized') {  
-                  alert('Debes autorizar la app!');  
-          } else {  
-              alert('Debes ingresar a tu cuenta de Facebook!');  
-          }  
-      });  
-  }
-  
-  function checkLoginState() {	  
-	  FB.login(function(response){  
-          validarUsuario();  
-      }, {scope: 'public_profile, email'});       
-  }
-
-    window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '288605394610781',
-          xfbml      : true,
-          version    : 'v3.3'
-        });
-        FB.AppEvents.logPageView();
-    };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-   
-/*
-  (function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.9&appId=288605394610781";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-*/
-</script>
+    <!-- Load Facebook SDK for JavaScript ME GUSTA -->
+    <div id="fb-root"></div>
+    <!-- FACEBOOK INICIAR SESION -->
+    <script type="text/javascript">
+      function validarUsuario() {  
+          FB.getLoginStatus(function(response) {
+              if(response.status == 'connected') {  
+                  FB.api('/me', {"fields":"id,name,email,first_name,last_name,birthday,gender,age_range,hometown"}, function(response){
+                	  console.log(JSON.stringify(response));
+                	  $.post("https://www.elmundotec.com/users/login", 
+              	            {data : response}, 
+              	            function(postResponse){
+              	                if(postResponse == 'registered') {
+              	                	console.log(postResponse);
+              	                	var loc = "https://www.elmundotec.com"; // or a new URL
+              	                	//window.location.href = loc + '?n=' + new Date().getTime(); // random number
+              	                	location.reload();
+              	                } else if( postResponse == 'authenticated') {
+              	                        // do after login stuff
+              	                }
+              	            });
+                  });  
+              } else if(response.status == 'not_authorized') {  
+                      alert('Debes autorizar la app!');  
+              } else {  
+                  alert('Debes ingresar a tu cuenta de Facebook!');  
+              }  
+          });  
+      }
+      
+      function checkLoginState() {	  
+    	  FB.login(function(response){  
+              validarUsuario();  
+          }, {scope: 'public_profile, email'});       
+      }
+    
+        window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '288605394610781',
+              xfbml      : true,
+              version    : 'v3.3'
+            });
+            FB.AppEvents.logPageView();
+        };
+    
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/es_ES/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <!-- FACEBOOK INICIAR SESION -->
 	<div id="container">
 		<?php //pr($s_url); ?>
 		<div id="header" class="page-header">		
@@ -206,33 +197,35 @@
     <?php echo $this->Html->script('locale/es.min.js'); ?>
     <?php echo $this->Html->script('analyticstracking.js'); ?>
 	<?php echo $this->Html->script('elmundotec.js'); ?>
+	<!-- WHATSAPP CHAT -->
 	<script>
-    function initWhatsappChat() {
-        'use strict';
-        var mobileDetect = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        if (mobileDetect) {
-            $('#float-cta .whatsapp-msg-container').css('display','none');
-            $('#float-cta > a').on('click', function(){
-            	var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
-                window.location = 'https://api.whatsapp.com/send?phone=51998886686&text='+textEncode;
-            });
-        } else {
-            $('#float-cta > a').click(function(){
-                $(this).toggleClass('open');
-                $('#float-cta .whatsapp-msg-container').toggleClass('open');
-                $('#float-cta').toggleClass('open');
-            });
-            $('.btn-whatsapp-send').on('click', function(event){
-                event.stopPropagation();
-            });
-            $('.btn-whatsapp-send').click(function() {
-                var baseUrl = 'https://web.whatsapp.com/send?phone=51998886686&text=';
-                var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
-                window.open(baseUrl + textEncode, '_blank');
-            });
+        function initWhatsappChat() {
+            'use strict';
+            var mobileDetect = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (mobileDetect) {
+                $('#float-cta .whatsapp-msg-container').css('display','none');
+                $('#float-cta > a').on('click', function(){
+                	var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
+                    window.location = 'https://api.whatsapp.com/send?phone=51998886686&text='+textEncode;
+                });
+            } else {
+                $('#float-cta > a').click(function(){
+                    $(this).toggleClass('open');
+                    $('#float-cta .whatsapp-msg-container').toggleClass('open');
+                    $('#float-cta').toggleClass('open');
+                });
+                $('.btn-whatsapp-send').on('click', function(event){
+                    event.stopPropagation();
+                });
+                $('.btn-whatsapp-send').click(function() {
+                    var baseUrl = 'https://web.whatsapp.com/send?phone=51998886686&text=';
+                    var textEncode = encodeURIComponent($('#float-cta .whatsapp-msg-body textarea').val());
+                    window.open(baseUrl + textEncode, '_blank');
+                });
+            }
         }
-    }
-    initWhatsappChat();
+        initWhatsappChat();
     </script>
+    <!-- END WHATSAPP CHAT -->
 </body>
 </html>
