@@ -37,7 +37,11 @@ class PagesController extends AppController {
  */
 	public $uses = array();
 
-	public function forma_pago(){
+	public function forma_pago(){	    
+	}
+	
+	public function inicio(){
+	    $this->layout = 'facebook';
 	    
 	}
 /**
