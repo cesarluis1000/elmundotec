@@ -48,9 +48,9 @@
     	<!-- FACEBOOK COMPARTIR -->
     	<meta property="og:url" 		content="<?php echo $this->Html->url( null, true ); ?>" />
     	<meta property="og:type" 		content="producto" />    	
-    	<meta property="og:image:width" content="200" />
-		<meta property="og:image:height" content="200" />
-		<meta property="og:image" 		content="<?php echo $this->Html->url('/mg/productos/'.$producto['Producto']['image'],true); ?>" />
+    	<meta property="og:image:width" content="300" />
+		<meta property="og:image:height" content="300" />
+		<meta property="og:image" 		content="<?php echo $this->Html->url('/img/productos/'.$producto['Producto']['image'],true); ?>" />
     	<meta property="og:title" 		content="<?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],60).$producto['Producto']['title_precio']; ?>" />    	 
     	<meta property="og:description" content="<?php echo $this->App->nombreMostrar($producto['Producto']['descripcion'],200); ?>" />    	
     	<!-- END FACEBOOK COMPARTIR -->
