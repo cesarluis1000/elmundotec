@@ -17,7 +17,7 @@ class PromocionesController extends AppController {
 
 	public function migracion_promociones(){
 	    ini_set("memory_limit","256M");
-	    ini_set('max_execution_time', 1200);
+	    ini_set('max_execution_time', 0);
 	    
 	    $this->loadModel('Producto');
 	    

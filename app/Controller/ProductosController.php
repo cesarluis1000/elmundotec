@@ -17,7 +17,7 @@ class ProductosController extends AppController {
 
 	public function migracion_productos($s_codigoItem = null){
 	    ini_set("memory_limit","256M");
-	    ini_set('max_execution_time', 1200);
+	    ini_set('max_execution_time', 0);
 	
 	    $this->loadModel('Parametro');
 	    $this->loadModel('Categoria');
@@ -92,7 +92,7 @@ class ProductosController extends AppController {
 	    //Migracion de Categorias, Subcategorias, Marcas
 	    foreach($a_Items AS $codigoItem => $a_Item){
 	        pr($codigoItem);
-	        pr($a_Item['Name']);
+	        pr($a_Item['TechInfoSmall']);
 	        //pr($a_Item);
 	        //pr($a_Item['Stock']);
 	        	
@@ -242,14 +242,14 @@ class ProductosController extends AppController {
 	        
 	        if(empty($Producto)){
 	            $Producto['Producto']['codigo'] 			= $codigoItem;
-	            $Producto['Producto']['nombre'] 			= $a_Item['Name'];
+	            $Producto['Producto']['nombre'] 			= $a_Item['TechInfoSmall'];
 	            $Producto['Producto']['descripcion'] 		= $a_Item['TechInfoLarge'];
 	            $Producto['Producto']['stock'] 				= $a_Item['Stock'];
 	            $Producto['Producto']['precio'] 			= $a_Item['Price'];
 	            $Producto['Producto']['subcategoria_id'] 	= $Subcategoria['Subcategoria']['id'];
 	            $Producto['Producto']['marca_id'] 			= $Marca['Marca']['id'];
 	            $Producto['Producto']['imagen'] 			= $imagen;
-	            $Producto['Producto']['caracteristicas']= $caracteristicas;
+	            $Producto['Producto']['caracteristicas']    = $caracteristicas;
 	            $Producto['Producto']['creado'] 			= date("Y-m-d H:i:s");
 	            //pr($Producto);
 	            $this->Producto->create();
@@ -258,7 +258,8 @@ class ProductosController extends AppController {
 	            }
 	            $Producto['Producto']['id'] = $this->Producto->getLastInsertId();
 	        }else{
-	            $Producto['Producto']['nombre'] 		= $a_Item['Name'];
+	            //$Producto['Producto']['nombre'] 		= $a_Item['Name'];
+	            $Producto['Producto']['nombre'] 		= $a_Item['TechInfoSmall'];
 	            $Producto['Producto']['descripcion'] 	= $a_Item['TechInfoLarge'];
 	            $Producto['Producto']['precio'] 		= $a_Item['Price'];
 	            $Producto['Producto']['stock'] 			= $a_Item['Stock'];
