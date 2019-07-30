@@ -522,15 +522,15 @@ class ProductosController extends AppController {
 	        case $valor < 300: $incremento=1.06; break;
 	        default          : $incremento=1.05;
 	    }
-	    $precio                         = $producto['Producto']['precio']*1.18*$incremento;	    
-	    $producto['Producto']['precio'] = number_format($precio, 0, ',', ' '); 
+	    
+	    $precio                                = $producto['Producto']['precio']*1.18*$incremento;
+	    $producto['Producto']['precio']        = number_format($precio, 0, ',', ' ');
+	    $producto['Producto']['title_precio']  = ' | Precio: S/. '.$producto['Producto']['precio'];
 	    
 	    if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
-	        $precio_promocion                  = $producto['Promocion']['precio']*1.18*1.08;
-	        $producto['Promocion']['precio']   = number_format($precio_promocion, 0, '.', '');
-	        $producto['Producto']['title_precio'] = ' | Promoción: S/. '.$producto['Promocion']['precio'];
-	    }else{
-	        $producto['Producto']['title_precio'] = ' | Precio: S/. '.$producto['Producto']['precio'];
+	        $precio_promocion                      = $producto['Promocion']['precio']*1.18*1.08;
+	        $producto['Promocion']['precio']       = number_format($precio_promocion, 0, '.', '');
+	        $producto['Producto']['title_precio']  = ' | Promoción: S/. '.$producto['Promocion']['precio'];
 	    }
 	    
 	    $this->set('producto', $producto);
