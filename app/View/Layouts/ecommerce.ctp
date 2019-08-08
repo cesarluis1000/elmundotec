@@ -4,7 +4,12 @@
 	<meta charset="UTF-8">
 	<!-- <?php echo $this->Html->charset(); ?> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Force Your Page to Always Load From the Server, Not the Web Cache -->
+    <meta http-equiv=“Pragma” content=”no-cache”>
+    <meta http-equiv=“Expires” content=”-1″>
+    <meta http-equiv=“CACHE-CONTROL” content=”NO-CACHE”>
     
     <!-- Google Analytics -->
     <script type="text/javascript">
