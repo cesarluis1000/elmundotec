@@ -193,8 +193,9 @@ class AppController extends Controller {
     private function __checkAuth() {
         $this->Auth->unauthorizedRedirect=FALSE ;
         $this->Auth->authError=__('You are not authorized to access that location.');
+
         $this->Auth->allow('login','logout','display','migracion_productos','migracion_promociones','buscador','detalle','sitemap','detalle2','forma_pago','inicio');
-        
+   
         $currentUser = $this->Auth->user();
         $a_menu = array();
         //pr(321);
