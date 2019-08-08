@@ -19,7 +19,10 @@
         		<?php echo $currentUser['username'].' - '.$currentUser['Group']['name']; ?>
         		<?php  echo $this->Html->link($this->Html->tag('span', '', array('class' => 'glyphicon glyphicon-off text-danger')).'&nbsp;'.__('Logout'),array('controller' => 'Users','action' => 'logout/?n='.time()),array('escape'=>false,'class'=>'menu-level2') ); ?>	
         <?php else: ?>
-        		<?php echo $this->Form->button($this->Html->tag('span', '', array('class' => 'fa fa-facebook-official')).'&nbsp'.'iniciar con facebook', array('type' => 'button','class'=>'btn btn-primary btn-xs','onclick' => 'checkLoginState();'));?>
+        		<?php echo $this->Form->button($this->Html->tag('span', '', array('class' => 'fa fa-facebook-official')).'&nbsp'.'iniciar con facebook', 
+        		          array(  'type' => 'button',
+        		                  'class'=>'btn btn-primary btn-xs',
+        		                  'onclick' => 'checkLoginState();'));?>
         		<!-- 
         		<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Iniciar Sesión
         		 --> 	
