@@ -416,7 +416,11 @@ class ProductosController extends AppController {
 	    //pr($categoria_id);pr($subcategoria_id);pr($marca_id);exit;
 	    
 	    $this->Producto->recursive = 1;
-	    $conditions = array('order'=>'Producto.precio asc','limit'=>18,'conditions' => array('Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-7 day")) ));
+	    $conditions = array('order'        => 'Producto.precio asc',
+                            'limit'        => 18,
+                            'conditions'   => array('Producto.precio >='    => '10',
+                                                    'Producto.stock >='     => '1',
+                                                    'Producto.modificado >='=> date('Y-m-d H:i:s', strtotime("-1 month")) ));
 	    $this->Paginator->settings = $conditions;
 	    
 	    //Si se busca campo displayField del modelo
@@ -483,7 +487,7 @@ class ProductosController extends AppController {
 	    
 	    //pr($this->Paginator->settings); 
 	    $productos = $this->Paginator->paginate();
-		
+		//pr($productos);
 		foreach($productos as $id => $producto){
 			$params = array('order'=>'Promocion.fecha_fin desc', 'conditions' => array('Promocion.producto_id' => $producto['Producto']['id'],'Promocion.descripcion NOT LIKE'=>'%cliente%'),'recursive' => -1);
 			$Promocion = $this->Producto->Promocion->find('first',$params);
@@ -493,7 +497,7 @@ class ProductosController extends AppController {
 			}
 		}
 		
-	    //pr($productos);
+	    
 	    $this->set('productos', $productos);
 	    $this->set(compact('productos', 'titulo_categoria', 'titulo_subcategoria', 'titulo_marca'));
 	}
@@ -523,17 +527,29 @@ class ProductosController extends AppController {
 	        default          : $incremento=1.05;
 	    }
 	    
-	    $precio                                = $producto['Producto']['precio']*1.18*$incremento;
-	    $producto['Producto']['precio']        = number_format($precio, 0, ',', ' ');
-	    $producto['Producto']['title_precio']  = ' | Precio: S/. '.$producto['Producto']['precio'];
+	    $producto['Producto']['warningavailability']   = ($producto['Producto']['stock'] > 0)?"InStock":"OutOfStock";
 	    
+	    $precio                                        = $producto['Producto']['precio']*1.18*$incremento;
+	    $producto['Producto']['precio']                = number_format(ceil($precio), 2, '.', ',');
+	    $producto['Producto']['search_precio']         = number_format(ceil($precio), 2, '.', '');
+	    $producto['Producto']['face_precio']           = ' | Precio: S/. '.$producto['Producto']['precio'];
+	    $producto['Producto']['fecha_fin']             = date('Y-m-d', strtotime("+1 months", strtotime($producto['Producto']['modificado'])));
 	    if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
-	        $precio_promocion                      = $producto['Promocion']['precio']*1.18*1.08;
-	        $producto['Promocion']['precio']       = number_format($precio_promocion, 0, '.', '');
-	        $producto['Producto']['title_precio']  = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+	        $precio_promocion                          = $producto['Promocion']['precio']*1.18*1.08;
+	        $producto['Promocion']['precio']           = number_format(ceil($precio_promocion), 2, '.', ',');
+	        $producto['Promocion']['search_precio']    = number_format(ceil($precio_promocion), 2, '.', '');
+	        $producto['Producto']['face_precio']       = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+	        $producto['Promocion']['fecha_fin']        = date('Y-m-d',strtotime($producto['Promocion']['fecha_fin']));
 	    }
 	    
-	    $this->set('producto', $producto);
+	    $productoJson = array("@context"   => "https://schema.org/",
+	                           "@type"     => "Product",
+	                           "name"      => $producto['Producto']['nombre']
+	                           );
+
+	    $productoJson = json_encode($productoJson);
+	    
+	    $this->set(compact('producto','productoJson'));
 	}
 	
 	public function detalle2($codigo = null) {
@@ -558,17 +574,22 @@ class ProductosController extends AppController {
 	        case $valor < 300: $incremento=1.06; break;
 	        default          : $incremento=1.05;
 	    }
-	    $precio = $producto['Producto']['precio']*1.18*$incremento;
-	    $producto['Producto']['precio'] = number_format($precio, 0, ',', ' ');
 	    
+	    $producto['Producto']['warningavailability']   = ($producto['Producto']['stock'] > 0)?"InStock":"OutOfStock";
+	    
+	    $precio                                        = $producto['Producto']['precio']*1.18*$incremento;
+	    $producto['Producto']['precio']                = number_format(ceil($precio), 2, '.', ',');
+	    $producto['Producto']['search_precio']         = number_format(ceil($precio), 2, '.', '');
+	    $producto['Producto']['face_precio']           = ' | Precio: S/. '.$producto['Producto']['precio'];
+	    $producto['Producto']['fecha_fin']             = date('Y-m-d', strtotime("+1 months", strtotime($producto['Producto']['modificado'])));
 	    if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
-	        $precio_promocion                  = $producto['Promocion']['precio']*1.18*1.08;
-	        $producto['Promocion']['precio']   = number_format($precio_promocion, 0, '.', '');
-	        $producto['Producto']['title_precio'] = ' | Promoción: S/. '.$producto['Promocion']['precio'];
-	    }else{
-	        $producto['Producto']['title_precio'] = ' | Precio: S/. '.$producto['Producto']['precio'];
+	        $precio_promocion                          = $producto['Promocion']['precio']*1.18*1.08;
+	        $producto['Promocion']['precio']           = number_format(ceil($precio_promocion), 2, '.', ',');
+	        $producto['Promocion']['search_precio']    = number_format(ceil($precio_promocion), 2, '.', '');
+	        $producto['Producto']['face_precio']       = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+	        $producto['Promocion']['fecha_fin']        = date('Y-m-d',strtotime($producto['Promocion']['fecha_fin']));
 	    }
-	    
+	    //pr($producto);
 	    $this->set('producto', $producto);
 	}
 /**

@@ -1,3 +1,9 @@
+	<!-- Google Search Producto -->
+	<script type="application/ld+json">
+		<?php echo $productoJson; ?>
+	</script>
+    
+
 <div itemscope itemtype="http://schema.org/Product" class="row">	
   	<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
   		<br>
@@ -39,6 +45,7 @@
     		<dt><?php echo 'Nro de Producto'; ?></dt>
     		<dd>
     			<span itemprop="sku"><?php echo h($producto['Producto']['id']); ?></span>
+    			<span itemprop="mpn"><?php echo h($producto['Producto']['id']); ?></span>
     			&nbsp;	
     		</dd>
     		<dt><?php echo __('Descripcion'); ?></dt>
@@ -78,7 +85,8 @@
     			</span>
     		</dd>
     		<dt><?php echo __('Precio'); ?></dt>
-    		<dd  itemprop="offers" itemscope itemtype="http://schema.org/Offer">				
+    		<dd  itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    			<link itemprop="availability" href="http://schema.org/<?php echo $producto['Producto']['warningavailability']; ?>" />
     			<meta itemprop="url" content="<?php echo $this->Html->url( null, true ); ?>">                
                 
     			<?php $hoy = date("Y-m-d H:i:s"); ?>
@@ -91,16 +99,20 @@
     				</strong>
                     <br>
         			<strong class="text-price">
-        				<span class="h3" itemprop="priceCurrency" content="PEN" class="text-price">S/.</span>
-        				<span class="h3" itemprop="price"><?php echo $producto['Promocion']['precio'] ; ?></span>
+        				<span class="h3" itemprop="priceCurrency" 	content="PEN" class="text-price">S/.</span>
+        				<span class="h3" itemprop="price" 		 	content="<?php echo $producto['Promocion']['search_precio']; ?>"><?php echo $producto['Promocion']['precio'] ; ?></span>
         				<br>
-        				<span class="h6" ><?php echo 'Hasta : '.substr($producto['Promocion']['fecha_fin'], 0,10); ?></span>
+        				<span class="h6" ><?php echo 'Hasta : '.$producto['Promocion']['fecha_fin']; ?></span>
+        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['fecha_fin']; ?>" />
         			</strong>
     			<?php else: ?>
-    			<strong class="text-price">
-        			<span class="h3" itemprop="priceCurrency" content="PEN" class="text-price">S/.</span>
-        			<span class="h3" itemprop="price" class="text-price"><?php echo $producto['Producto']['precio']; ?></span>
-        		</strong>	
+        			<strong class="text-price">
+            			<span class="h3" itemprop="priceCurrency" 	content="PEN" class="text-price">S/.</span>
+            			<span class="h3" itemprop="price" 		 	content="<?php echo $producto['Producto']['search_precio']; ?>"  class="text-price"><?php echo $producto['Producto']['precio']; ?></span>
+            			<br>
+        				<span class="h6" ><?php echo 'Hasta : '.$producto['Producto']['fecha_fin']; ?></span>
+        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['fecha_fin']; ?>" />
+            		</strong>	
     			<?php endif; ?>
     			&nbsp;
     			<br>

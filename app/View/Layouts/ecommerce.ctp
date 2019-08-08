@@ -11,8 +11,7 @@
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    
+      	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');    
       	  ga('create', 'UA-101245640-1', 'auto');
       	  ga('send', 'pageview');
     </script>
@@ -51,7 +50,7 @@
     	<meta property="og:image:width" content="300" />
 		<meta property="og:image:height" content="300" />
 		<meta property="og:image" 		content="<?php echo $this->Html->url('/img/productos/'.$producto['Producto']['image'],true); ?>" />
-    	<meta property="og:title" 		content="<?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],60).$producto['Producto']['title_precio']; ?>" />    	 
+    	<meta property="og:title" 		content="<?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],200).$producto['Producto']['face_precio']; ?>" />    	 
     	<meta property="og:description" content="<?php echo $this->App->nombreMostrar($producto['Producto']['descripcion'],200); ?>" />    	
     	<!-- END FACEBOOK COMPARTIR -->
     <?php elseif ($this->action == 'buscador'): ?>     	
@@ -75,43 +74,45 @@
         @charset "UTF-8";*{font-size:12px}#container{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto;height:100%;min-height:100%}.form-group.required .control-label:after{content:" *";color:red}#header{margin:0;padding-bottom:0}#header .banner{background-image:url(<?php echo $s_url;  ?>img/wallpaper_banner.jpg);background-repeat:no-repeat;background-size:100% 100%;padding-top:3px}#titulo{margin-top:0;margin-bottom:0}.alert h4{margin-bottom:0}.sin_imagen{opacity:.2}.thumbnail{margin-bottom:5px}.nombre_producto{height:25px}.text-price{color:red}.menu-level2{padding-left:11px}.panel-body{padding:0}.panel-heading{padding:5px 10px}.form-buscador{margin-top:10px}.titulo-buscador{margin-top:10px;margin-bottom:10px;height:24px;font-size:14px;text-align:center;color:red}.panel-scroll-categoria{max-height:400px;overflow:hidden;overflow-y:auto}.panel-scroll-subcategoria{max-height:205px;overflow:hidden;overflow-y:auto}.panel-scroll-marca{max-height:162px;overflow:hidden;overflow-y:auto}.panel a{color:#777}.panel-scroll{max-height:460px;overflow:hidden;overflow-y:auto}.panel a:hover{text-decoration:none;color:#222}.panel .table td{border-color:#f3f3f3}table .btn-xs{line-height:1}.table-condensed>tbody>tr>td,.table-condensed>tbody>tr>th,.table-condensed>tfoot>tr>td,.table-condensed>tfoot>tr>th,.table-condensed>thead>tr>td,.table-condensed>thead>tr>th{padding:2px}.input-xs{height:27px;padding:5px 10px;font-size:12px;line-height:1.5;border-radius:3px}.pagination{margin:10px 0}.pagination-sm>li>a,.pagination-sm>li>span{padding:5px 7px;line-height:1}.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-xs-1,.col-xs-10,.col-xs-11,.col-xs-12,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9{min-height:1px;padding-left:10px;padding-right:15px;position:relative}
         #float-cta{position:fixed;bottom:35px;right:35px;z-index:9999999999}#float-cta a{display:inline-block;background-color:#25d366;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;border-radius:50%;width:55px;height:55px;color:#fff;-webkit-box-shadow:3px 3px 0 0 rgba(0,0,0,0.3);-moz-box-shadow:3px 3px 0 0 rgba(0,0,0,0.3);box-shadow:3px 3px 0 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:30px;transition:.3s}#float-cta a:hover,#float-cta a:focus{text-decoration:none;background-color:#128c7e}#float-cta a .fa-times,#float-cta a .fa-whatsapp{transition:.3s}#float-cta a .fa-times{visibility:hidden;opacity:0;display:none}#float-cta a.open .fa-times{visibility:visible;opacity:1;display:block}#float-cta a.open .fa-whatsapp{visibility:hidden;opacity:0;display:none}#float-cta span{position:absolute;left:-150px;width:190px;top:16px;background-color:#999;color:#fff;padding:5px 3px;text-align:center;letter-spacing:.5px;opacity:0;transition:.3s;visibility:hidden}#float-cta .whatsapp-msg-container{visibility:hidden;position:absolute;right:0;bottom:-20px;opacity:0;transform:translateY(-70px);width:300px;overflow:hidden;-webkit-box-shadow:3px 3px 3px 0 rgba(0,0,0,0.1);-moz-box-shadow:3px 3px 3px 0 rgba(0,0,0,0.1);box-shadow:3px 3px 3px 0 rgba(0,0,0,0.1);background-color:#fff;transition:.3s}#float-cta .whatsapp-msg-container.open{visibility:visible;bottom:0;opacity:1}#float-cta .whatsapp-msg-header{text-align:center;background-color:#25d366;color:#fff;padding:10px}#float-cta .whatsapp-msg-header h6{font-weight:700;font-size:16px;margin:0}#float-cta .whatsapp-msg-body{padding:5px}#float-cta .whatsapp-msg-body textarea{width:100%;height:200px;border:none}#float-cta .whatsapp-msg-body textarea.placeholder,#float-cta .whatsapp-msg-body textarea::placeholder{color:lightgray;font-size:14px}#float-cta .whatsapp-msg-footer{text-align:center;background-color:#fff;border-top:1px solid lightgray;padding:5px}#float-cta .btn-whatsapp-send{display:block;width:100%;border:2px solid #25d366;font-weight:700;color:#fff;background-color:#25d366;padding:7px 15px;transition:.3s}#float-cta .btn-whatsapp-send:hover{background-color:#fff;color:#25d366}#float-cta:hover span{opacity:1;left:-200px;visibility:visible}#float-cta.open span{display:none}
     </style>
-	
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Organization",
-  "url": "https://www.elmundotec.com",
-  "logo": "https://www.elmundotec.com/img/elmundotec_producto.png",
-  "contactPoint": [{
-    "@type": "ContactPoint",
-    "telephone": "+511-993014303",
-    "contactType": "sales",
-	"areaServed": "PE"
-  },{
-    "@type": "ContactPoint",
-    "telephone": "+511-998886686",
-    "contactType": "customer service"
-  },{
-    "@type": "ContactPoint",
-    "telephone": "+511-989231175",
-    "contactType": "customer service"
-  }]
-}
-</script>
 
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "WebSite",
-  "url": "https://www.elmundotec.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://www.elmundotec.com/?nombre={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-	
+	<!-- Google Search Organization -->
+	<script type="application/ld+json">
+		{
+		  "@context": "http://schema.org",
+		  "@type": "Organization",
+		  "url": "https://www.elmundotec.com",
+		  "logo": "https://www.elmundotec.com/img/elmundotec_producto.png",
+		  "contactPoint": [{
+			"@type": "ContactPoint",
+			"telephone": "+511-998886686",
+			"contactType": "sales",
+			"areaServed": "PE"
+		  },{
+			"@type": "ContactPoint",
+			"telephone": "+511-998886686",
+			"contactType": "customer service"
+		  },{
+			"@type": "ContactPoint",
+			"telephone": "+511-998886686",
+			"contactType": "customer service"
+		  }]
+		}
+	</script>
+
+    <!-- Google Search WebSite -->
+	<script type="application/ld+json">
+		{
+		  "@context": "http://schema.org",
+		  "@type": "WebSite",
+		  "url": "https://www.elmundotec.com",
+		  "potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://www.elmundotec.com/?nombre={search_term_string}",
+			"query-input": "required name=search_term_string"
+		  }
+		}
+	</script>
+		
 </head>
 <body>
     <!-- Load Facebook SDK for JavaScript ME GUSTA -->
