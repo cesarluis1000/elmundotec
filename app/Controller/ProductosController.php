@@ -16,7 +16,9 @@ class ProductosController extends AppController {
 	public $components = array('Paginator');
 
 	public function migracion_productos($s_codigoItem = null){
-	    ini_set("memory_limit","256M");
+	    $this->layout = false;
+	    $this->autoRender = false;
+	    ini_set("memory_limit","2048M");
 	    ini_set('max_execution_time', 0);
 	
 	    $this->loadModel('Parametro');
@@ -34,26 +36,26 @@ class ProductosController extends AppController {
 	    $parametros = $this->Parametro->find('first',$condicion);
 	    $page = $parametros['Parametro']['valor'];
 	
-	    //$page = 4;
-	    //$sizePag = 50;
+//	    $page = 1;
+//	    $sizePag = 10;
 	    
 	    if (isset($s_codigoItem) && !empty($s_codigoItem)){
 	        $page = 1;
-	        $sizePag = 5500;
+	        $sizePag = 6000;
 	    }
 	    
 	    $ip_server = $_SERVER['SERVER_ADDR'];
-	    pr($ip_server);
+pr($ip_server);
 	    $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemData&page=$page&sizePag=$sizePag";
 	    $primer = date("Y-m-d H:i:s");
 	    pr($url);
-	
+//exit;	
 	    $ch = curl_init();
 	    curl_setopt ($ch, CURLOPT_URL, $url);
 	    curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
 	    $contents = curl_exec($ch);
-	
+
 	    if (curl_errno($ch)) {
 	        $contents = curl_error($ch);
 	        pr($contents);
@@ -350,7 +352,7 @@ class ProductosController extends AppController {
 	
 	//public function buscador($categoria_id = null,$subcategoria_id = null){
 	public function buscador($slug = null, $slug2 = null, $slug3 = null){
-	    //pr(date('Y-m-d H:i:s', strtotime("-1 day")));
+	    //pr($this->request->query);
 	    $this->loadModel('Categoria');
 	    $this->loadModel('Subcategoria');
 	    $this->loadModel('Marca');
@@ -541,15 +543,8 @@ class ProductosController extends AppController {
 	        $producto['Producto']['face_precio']       = ' | Promoción: S/. '.$producto['Promocion']['precio'];
 	        $producto['Promocion']['fecha_fin']        = date('Y-m-d',strtotime($producto['Promocion']['fecha_fin']));
 	    }
-	    
-	    $productoJson = array("@context"   => "https://schema.org/",
-	                           "@type"     => "Product",
-	                           "name"      => $producto['Producto']['nombre']
-	                           );
-
-	    $productoJson = json_encode($productoJson);
-	    
-	    $this->set(compact('producto','productoJson'));
+	    //pr($producto);
+	    $this->set('producto', $producto);
 	}
 	
 	public function detalle2($codigo = null) {
