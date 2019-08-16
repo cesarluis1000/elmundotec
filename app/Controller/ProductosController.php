@@ -537,13 +537,13 @@ class ProductosController extends AppController {
         $precio                                        = $producto['Producto']['precio']*1.18*$incremento;
         $producto['Producto']['precio']                = number_format(ceil($precio), 2, '.', ',');
         $producto['Producto']['search_precio']         = number_format(ceil($precio), 2, '.', '');
-        $producto['Producto']['face_precio']           = ' | Precio: S/. '.$producto['Producto']['precio'];
+        $producto['Producto']['face_precio']           = ' || Precio: S/. '.$producto['Producto']['precio'];
         $producto['Producto']['fecha_fin']             = date('Y-m-d', strtotime("+1 months", strtotime($producto['Producto']['modificado'])));
         if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
             $precio_promocion                          = $producto['Promocion']['precio']*1.18*1.08;
             $producto['Promocion']['precio']           = number_format(ceil($precio_promocion), 2, '.', ',');
             $producto['Promocion']['search_precio']    = number_format(ceil($precio_promocion), 2, '.', '');
-            $producto['Producto']['face_precio']       = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+            $producto['Producto']['face_precio']       = ' || Promoción: S/. '.$producto['Promocion']['precio'];
             $producto['Promocion']['fecha_fin']        = date('Y-m-d',strtotime($producto['Promocion']['fecha_fin']));
         }
         //pr($producto);
@@ -578,13 +578,13 @@ class ProductosController extends AppController {
         $precio                                        = $producto['Producto']['precio']*1.18*$incremento;
         $producto['Producto']['precio']                = number_format(ceil($precio), 2, '.', ',');
         $producto['Producto']['search_precio']         = number_format(ceil($precio), 2, '.', '');
-        $producto['Producto']['face_precio']           = ' | Precio: S/. '.$producto['Producto']['precio'];
+        $producto['Producto']['face_precio']           = ' || Precio: S/. '.$producto['Producto']['precio'];
         $producto['Producto']['fecha_fin']             = date('Y-m-d', strtotime("+1 months", strtotime($producto['Producto']['modificado'])));
         if (isset($producto['Promocion']) && date("Y-m-d H:i:s") <= $producto['Promocion']['fecha_fin']){
             $precio_promocion                          = $producto['Promocion']['precio']*1.18*1.08;
             $producto['Promocion']['precio']           = number_format(ceil($precio_promocion), 2, '.', ',');
             $producto['Promocion']['search_precio']    = number_format(ceil($precio_promocion), 2, '.', '');
-            $producto['Producto']['face_precio']       = ' | Promoción: S/. '.$producto['Promocion']['precio'];
+            $producto['Producto']['face_precio']       = ' || Promoción: S/. '.$producto['Promocion']['precio'];
             $producto['Promocion']['fecha_fin']        = date('Y-m-d',strtotime($producto['Promocion']['fecha_fin']));
         }
         //pr($producto);
