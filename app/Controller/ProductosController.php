@@ -417,12 +417,14 @@ class ProductosController extends AppController {
         $this->set(compact('categoria_id', 'subcategoria_id', 'marca_id'));
         //pr($categoria_id);pr($subcategoria_id);pr($marca_id);exit;
         
-        $this->Producto->recursive = 1;
-        $conditions = array('order'        => 'Producto.precio asc',
-            'limit'        => 18,
-            'conditions'   => array('Producto.precio >='    => '10',
-                'Producto.stock >='     => '1',
-                'Producto.modificado >='=> date('Y-m-d H:i:s', strtotime("-1 month")) ));
+        //$this->Producto->recursive = 1;
+        $conditions = array(//'order'                 => 'Producto.precio asc',
+                            'limit'                 => 18,
+                            'conditions'            => array('Producto.precio >='    => '10',
+                                                            'Producto.stock >='     => '1',
+                                                            'Producto.modificado >='=> date('Y-m-d H:i:s', strtotime("-2 month")) ),
+                            'recursive' => 1
+                            );
         $this->Paginator->settings = $conditions;
         
         //Si se busca campo displayField del modelo
@@ -477,9 +479,14 @@ class ProductosController extends AppController {
         else{
             //pagina de inicio Promociones
             //pr(date("Y-m-d H:i:s"));
-            $params = array('conditions'=>array('Promocion.fecha_fin >='         => date("Y-m-d H:i:s"),
-                'Promocion.estado'               => 'A',
-                'Promocion.descripcion NOT LIKE'=> '%cliente%'));
+            $params = array('order'     => 'Promocion.creado desc',
+                            'fields'    => array('id','nombre','producto_id', 'creado', 'fecha_fin'),
+                            'conditions'=> array('Promocion.fecha_fin >='        => date("Y-m-d H:i:s"),
+                                                'Promocion.creado >='            => date('Y-m-d H:i:s', strtotime("-2 month")),
+                                                'Promocion.estado'               => 'A',
+                                                'Promocion.descripcion NOT LIKE' => '%cliente%'),
+                            'recursive' => -1
+                            );
             $a_promociones = $this->Producto->Promocion->find('all',$params);
             //pr($a_promociones);
             $producto_productos_id = Set::classicExtract($a_promociones, '{n}.Promocion.producto_id');
@@ -494,7 +501,9 @@ class ProductosController extends AppController {
         $productos = $this->Paginator->paginate();
         //pr($productos);
         foreach($productos as $id => $producto){
-            $params = array('order'=>'Promocion.fecha_fin desc', 'conditions' => array('Promocion.producto_id' => $producto['Producto']['id'],'Promocion.descripcion NOT LIKE'=>'%cliente%'),'recursive' => -1);
+            $params = array('conditions'    => array('Promocion.producto_id'            => $producto['Producto']['id'],
+                                                     'Promocion.descripcion NOT LIKE'   =>'%cliente%'),
+                            'recursive' => -1);
             $Promocion = $this->Producto->Promocion->find('first',$params);
             //pr($Promocion);
             if(isset($Promocion['Promocion'])){
