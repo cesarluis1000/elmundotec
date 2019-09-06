@@ -98,7 +98,7 @@
     	       default          : $incremento=1.05;
     	   }
     	   $precio = $producto['Producto']['precio']*1.18*$incremento;
-    	   $precio = number_format($precio, 0, ',', ' '); 
+    	   $precio = number_format(ceil($precio), 2, '.', '');
     	?>
     		<div style="float: right;">
         		<?php $hoy = date("Y-m-d H:i:s"); ?>
