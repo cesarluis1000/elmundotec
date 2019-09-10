@@ -55,7 +55,7 @@
     	<meta property="og:image:width" content="300" />
 		<meta property="og:image:height" content="300" />
 		<meta property="og:image" 		content="<?php echo $this->Html->url('/img/productos/'.$producto['Producto']['image'],true); ?>" />
-    	<meta property="og:title" 		content="<?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],200).$producto['Producto']['face_precio']; ?>" />    	 
+    	<meta property="og:title" 		content="<?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],62).$producto['Producto']['face_precio']; ?>" />    	 
     	<meta property="og:description" content="<?php echo $this->App->nombreMostrar($producto['Producto']['descripcion'],200); ?>" />    	
     	<!-- END FACEBOOK COMPARTIR -->
     <?php elseif ($this->action == 'buscador'): ?>     	

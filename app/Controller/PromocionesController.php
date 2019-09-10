@@ -15,13 +15,15 @@ class PromocionesController extends AppController {
  */
 	public $components = array('Paginator');
 
-	public function migracion_promociones(){
+	public function migracion_promociones($s_codigoItem = null){
+	    $this->layout = false;
+	    $this->autoRender = false;
 	    ini_set("memory_limit","256M");
 	    ini_set('max_execution_time', 0);
 	    
 	    $this->loadModel('Producto');
 	    
-	    $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemPromo&page=1&sizePag=5500";
+	    $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemPromo&page=1&sizePag=6000";
 	    
 	    pr($url);
 	    
@@ -30,7 +32,7 @@ class PromocionesController extends AppController {
 	    curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
 	    $contents = curl_exec($ch);
-	    
+//pr($contents);exit;		    
 	    if (curl_errno($ch)) {
 	        $contents = curl_error($ch);
 	        pr($contents);
@@ -51,41 +53,92 @@ class PromocionesController extends AppController {
 	    }
 	    
 	    $a_Items = $contents[0]['Items'];
+	    if (isset($s_codigoItem) && !empty($s_codigoItem)){
+    	    $i = 1;
+    	    pr($s_codigoItem);
+    	    //pr($a_Items);
+    	    foreach($a_Items AS $codigoItem => $a_Item){
+    	       // pr($a_Item['Sku']);
+    	       if($s_codigoItem == $a_Item['Sku'] ){
+    	           pr($i);
+    	           pr($a_Item);
+    	           $condicion = array('conditions' => array('Producto.codigo' => $a_Item['Sku']),
+	                                                        'recursive' => -1);
+	               $Producto = $this->Producto->find('first',$condicion);
+	               
+	               $condicion1 = array('conditions' => array('Promocion.producto_id' => $Producto['Producto']['id'])
+	                               ,'recursive' => -1);
+	               $Promocion = $this->Promocion->find('first',$condicion1);
+	               pr($Promocion);
+    	           pr($Producto);
+    	           break;
+    	       }
+    	       $i++;
+    	    }	
+    	    exit;
+	    }
+
 	    //pr($a_Items);
+	    $hoy = date("Y-m-d H:i:s");
 	    foreach($a_Items AS $codigoItem => $a_Item){
 	       
 	        $condicion = array('conditions' => array('Producto.codigo' => $a_Item['Sku']),
 	                           'recursive' => -1);
 	        $Producto = $this->Producto->find('first',$condicion);
 	        
-	        
-	        if(!empty($Producto)){
-	            pr($a_Item);
-	            pr($Producto);
-	            
+	        //
+	        //&& $s_codigoItem == $a_Item['Sku'] 
+	        if(!empty($Producto) && !empty($a_Item['IdPromo']) && $hoy < $a_Item['FecFin']){
 	            $condicion1 = array('conditions' => array('Promocion.producto_id' => $Producto['Producto']['id'])
 	                               ,'recursive' => -1);
 	            $Promocion = $this->Promocion->find('first',$condicion1);
 	            
-	            if (empty($Promocion)){
-	                $Promocion['Promocion']['producto_id'] = $Producto['Producto']['id'];
-	                $Promocion['Promocion']['nombre']      = $Producto['Producto']['nombre'];
-	                $Promocion['Promocion']['precio']      = ($a_Item['SpecialPrice']/1.15/1.18);
-	                $Promocion['Promocion']['descripcion'] = $Producto['Producto']['descripcion'];
+	            pr($a_Item);
+	            pr($Promocion);
+	            
+	            if (empty($Promocion) && !empty($a_Item['IdPromo'])){
+	                //exit;
+	                $Promocion['Promocion']['producto_id']  = $Producto['Producto']['id'];
+	                $Promocion['Promocion']['nombre']       = $Producto['Producto']['nombre'];
+	                $Promocion['Promocion']['precio']       = ($a_Item['SpecialPrice']/1.15/1.18);
+	                $Promocion['Promocion']['descripcion']  = $Producto['Producto']['descripcion'];
 	                $Promocion['Promocion']['fecha_inicio'] = $a_Item['FecIni'].' 00:00:00';
-	                $Promocion['Promocion']['fecha_fin'] = $a_Item['FecFin'].' 23:59:59';
-	                 
-	                pr($Promocion);
+	                $Promocion['Promocion']['fecha_fin']    = $a_Item['FecFin'].' 23:59:59';
+	                
+	                
 	                $this->Promocion->create();
 	                if (!$this->Promocion->save($Promocion)) {
-	                    echo var_dump($this->Promocion->invalidFields());
+	                    //echo var_dump($this->Promocion->invalidFields());
+	                    //pr($this->Promocion->invalidFields());
 	                    echo 'error Producto';
+	                    pr($this->Promocion->validationErrors);
+	                    //pr($this->Promocion->getDataSource()->getLog(false, false));
 	                }
+	            }else{
+    	            
+    	            if (!empty($Promocion) && !empty($a_Item['IdPromo'])){
+    	                $Promocion['Promocion']['fecha_fin']    = $a_Item['FecFin'].' 23:59:59';
+    	                if (!$this->Promocion->save($Promocion)) {
+    	                    echo 'error Producto actualización de fecha de fin';
+    	                }
+    	            }
+    	            
+    	            if(empty($a_Item['IdPromo']) && !empty($Promocion) && $Promocion['Promocion']['estado'] == 'A'){
+        	            //pr($Promocion);
+        	            echo 'Desactivo Producto';
+        	            $Promocion['Promocion']['estado']    = 'D';
+        	            pr($Promocion);
+        	            if (!$this->Promocion->save($Promocion)) {
+	                        echo 'error Producto';
+	                        pr($this->Promocion->validationErrors);
+	                    }
+    	            }
 	            }
+	            //exit;
 	        }
 	    }
 	    //pr($contents);
-	    exit;
+	    //exit;
 	}
 /**
  * index method
