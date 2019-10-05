@@ -1,9 +1,3 @@
-	<!-- Google Search Producto -->
-	<script type="application/ld+json">
-		<?php echo $productoJson; ?>
-	</script>
-    
-
 <div itemscope itemtype="http://schema.org/Product" class="row">	
   	<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
   		<br>
@@ -45,7 +39,7 @@
     		<dt><?php echo 'Nro de Producto'; ?></dt>
     		<dd>
     			<span itemprop="sku"><?php echo h($producto['Producto']['id']); ?></span>
-    			<span itemprop="mpn"><?php echo h($producto['Producto']['id']); ?></span>
+    			<span itemprop="mpn" content="<?php echo h($producto['Producto']['id']); ?>"></span>
     			&nbsp;	
     		</dd>
     		<dt><?php echo __('Descripcion'); ?></dt>
@@ -89,7 +83,7 @@
     			<link itemprop="availability" href="http://schema.org/<?php echo $producto['Producto']['warningavailability']; ?>" />
     			<meta itemprop="url" content="<?php echo $this->Html->url( null, true ); ?>">                
                 
-    			<?php $hoy = date("Y-m-d H:i:s"); ?>
+    			<?php $hoy = date("Y-m-d"); ?>
     			<?php if (isset($producto['Promocion']) && $hoy <= $producto['Promocion']['fecha_fin']): ?>
     				<strong class="text-muted">
     					<del>
@@ -103,7 +97,7 @@
         				<span class="h3" itemprop="price" 		 	content="<?php echo $producto['Promocion']['search_precio']; ?>"><?php echo $producto['Promocion']['precio'] ; ?></span>
         				<br>
         				<span class="h6" ><?php echo 'Hasta : '.$producto['Promocion']['fecha_fin']; ?></span>
-        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['fecha_fin']; ?>" />
+        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Promocion']['fecha_fin']; ?>" />
         			</strong>
     			<?php else: ?>
         			<strong class="text-price">
