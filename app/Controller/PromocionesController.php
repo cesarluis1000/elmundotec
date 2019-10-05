@@ -100,7 +100,7 @@ class PromocionesController extends AppController {
 	                //exit;
 	                $Promocion['Promocion']['producto_id']  = $Producto['Producto']['id'];
 	                $Promocion['Promocion']['nombre']       = $Producto['Producto']['nombre'];
-	                $Promocion['Promocion']['precio']       = ($a_Item['SpecialPrice']/1.15/1.18);
+	                $Promocion['Promocion']['precio']       = ($a_Item['SpecialPrice']/1.10/1.18);
 	                $Promocion['Promocion']['descripcion']  = $Producto['Producto']['descripcion'];
 	                $Promocion['Promocion']['fecha_inicio'] = $a_Item['FecIni'].' 00:00:00';
 	                $Promocion['Promocion']['fecha_fin']    = $a_Item['FecFin'].' 23:59:59';
@@ -117,6 +117,7 @@ class PromocionesController extends AppController {
 	            }else{
     	            
     	            if (!empty($Promocion) && !empty($a_Item['IdPromo'])){
+    	                $Promocion['Promocion']['precio']       = ($a_Item['SpecialPrice']/1.10/1.18); 
     	                $Promocion['Promocion']['fecha_fin']    = $a_Item['FecFin'].' 23:59:59';
     	                if (!$this->Promocion->save($Promocion)) {
     	                    echo 'error Producto actualización de fecha de fin';
