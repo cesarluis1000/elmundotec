@@ -23,7 +23,7 @@ class PromocionesController extends AppController {
 	    
 	    $this->loadModel('Producto');
 	    
-	    $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemPromoByCustomer&page=1&sizePag=6000";
+	    $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemPromoByCustomer&page=1&sizePag=10";
 	    //pr($url);
 	    
 	    $ch = curl_init();
@@ -107,31 +107,37 @@ class PromocionesController extends AppController {
 	        if(!empty($Producto) && !empty($a_Item['Name']) && $Producto['Producto']['stock'] > 0 && $hoy < $a_Item['FecFin']){
 	            $condicion1 = array('conditions' => array('Promocion.producto_id' => $Producto['Producto']['id'], 'Promocion.estado' => 'A'),'recursive' => -1);
 	            $Promocion = $this->Promocion->find('first',$condicion1);	            
-	            pr($Promocion);
+	            //pr($Promocion);
 	            if (empty($Promocion) && !empty($a_Item['Name'])){
 	                //exit;
 	                $Promocion['Promocion']['producto_id']  = $Producto['Producto']['id'];
 	                $Promocion['Promocion']['nombre']       = $Producto['Producto']['nombre'];
 	                $Promocion['Promocion']['precio']       = $a_Item['PriceCostNew'];
-	                $Promocion['Promocion']['descripcion']  = 'hola';
+	                $Promocion['Promocion']['descripcion']  = $Producto['Producto']['descripcion'];
 	                $Promocion['Promocion']['fecha_inicio'] = $a_Item['FecIni'];
 	                $Promocion['Promocion']['fecha_fin']    = $a_Item['FecFin'];	                
-	                    	            
+	                
+	                pr($a_Item);
+	                pr($Promocion); 
     	            $this->Promocion->create();
     	            if (!$this->Promocion->save($Promocion)) {    	             
     	                echo 'error Promocion';
     	                pr($this->Promocion->validationErrors);
+    	                pr($this->Promocion->getDataSource()->getLog(false, false));
     	            }
     	            
     	            pr($a_Item);
-    	            pr($Promocion);
+    	            pr($Promocion);    	            
     	            exit;
     	            
 	            }else{
 
 	            }
 	        }
-	    }     
+	    }
+	    pr(123);
+	    $this->response->body();	    
+	    
     }
     
 	public function migracion_promociones($s_codigoItem = null){
