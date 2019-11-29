@@ -123,7 +123,7 @@ class AppController extends Controller {
                     $a_subcategoria_id_cat_sel = Set::classicExtract($a_subcategorias, '{n}.Subcategoria.id');
                     
                     //Todos los productos de las subcategoria de la categoria
-                    $params = array('fields' => array('subcategoria_id','marca_id'), 'conditions' => array('Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
+                    $params = array('fields' => array('subcategoria_id','marca_id'), 'conditions' => array('Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
                     $a_productos = $this->Producto->find('all',$params);
                     $a_subcategoria_id = Set::classicExtract($a_productos, '{n}.Producto.subcategoria_id');
                     
@@ -133,7 +133,7 @@ class AppController extends Controller {
                     
                     //Productos por subcategoria
                     foreach ($a_subcategorias as $id => $subcategoria){
-                        $params = array('conditions' => array('Producto.subcategoria_id'=>$subcategoria['Subcategoria']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
+                        $params = array('conditions' => array('Producto.subcategoria_id'=>$subcategoria['Subcategoria']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
                         $productos_count = $this->Producto->find('count',$params);
                         $a_subcategorias[$id]['Subcategoria']['productos'] = $productos_count;
                     }
@@ -163,9 +163,9 @@ class AppController extends Controller {
             $a_marcas = $this->Marca->find('all',$params);     
             foreach ($a_marcas as $id => $marca){
                if (!empty($a_subcategoria_id_cat_sel)){                   
-                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
+                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
                }else{
-                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
+                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
                }
                 $productos_count = $this->Producto->find('count',$params);
                 $a_marcas[$id]['Marca']['productos'] = $productos_count;                
@@ -193,9 +193,8 @@ class AppController extends Controller {
     private function __checkAuth() {
         $this->Auth->unauthorizedRedirect=FALSE ;
         $this->Auth->authError=__('You are not authorized to access that location.');
-
-        $this->Auth->allow('login','logout','display','migracion_productos','migracion_promociones','buscador','detalle','sitemap','detalle2','forma_pago','inicio');
-   
+        $this->Auth->allow('login','logout','display','migracion_productos','migracion_promociones','migracion', 'migracion2', 'buscador','detalle','sitemap','detalle2','forma_pago','inicio');
+        
         $currentUser = $this->Auth->user();
         $a_menu = array();
         //pr(321);
