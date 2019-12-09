@@ -121,19 +121,21 @@ class AppController extends Controller {
                     
                     //Lista de subcategoria_id de categoria seleccionada
                     $a_subcategoria_id_cat_sel = Set::classicExtract($a_subcategorias, '{n}.Subcategoria.id');
-                    
+                    //pr($a_subcategoria_id_cat_sel);
                     //Todos los productos de las subcategoria de la categoria
-                    $params = array('fields' => array('subcategoria_id','marca_id'), 'conditions' => array('Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
+                    $params = array('fields' => array('subcategoria_id','marca_id'), 
+                        'conditions' => array('Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),
+                                    'recursive' => -1);
                     $a_productos = $this->Producto->find('all',$params);
                     $a_subcategoria_id = Set::classicExtract($a_productos, '{n}.Producto.subcategoria_id');
-                    
+                    //pr($a_subcategoria_id);
                     //Solo subcategoria con productos
                     $params = array('conditions' => array('Subcategoria.estado' => 'A','Subcategoria.id'=>$a_subcategoria_id),'order' => 'Subcategoria.nombre','recursive'=> 0);
                     $a_subcategorias = $this->Subcategoria->find('all',$params);
-                    
+                    //pr($a_subcategorias);
                     //Productos por subcategoria
                     foreach ($a_subcategorias as $id => $subcategoria){
-                        $params = array('conditions' => array('Producto.subcategoria_id'=>$subcategoria['Subcategoria']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
+                        $params = array('conditions' => array('Producto.subcategoria_id'=>$subcategoria['Subcategoria']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
                         $productos_count = $this->Producto->find('count',$params);
                         $a_subcategorias[$id]['Subcategoria']['productos'] = $productos_count;
                     }
@@ -151,7 +153,7 @@ class AppController extends Controller {
                 
                 //Marcas de las subcategoias de la categoria seleccionada
                 if (!empty($a_subcategoria_id_cat_sel)){
-                    $params = array('fields' => array('subcategoria_id','marca_id'), 'conditions' => array('Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1'),'recursive' => -1);
+                    $params = array('fields' => array('subcategoria_id','marca_id'), 'conditions' => array('Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
                     $a_productos = $this->Producto->find('all',$params);
                     $a_marca_id = Set::classicExtract($a_productos, '{n}.Producto.marca_id');
                 }
@@ -163,9 +165,9 @@ class AppController extends Controller {
             $a_marcas = $this->Marca->find('all',$params);     
             foreach ($a_marcas as $id => $marca){
                if (!empty($a_subcategoria_id_cat_sel)){                   
-                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
+                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.subcategoria_id'=>$a_subcategoria_id_cat_sel,'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
                }else{
-                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 day"))),'recursive' => -1);
+                   $params = array('conditions' => array('Producto.marca_id'=>$marca['Marca']['id'],'Producto.precio >='=>'10','Producto.stock >='=>'1','Producto.modificado >='=>date('Y-m-d H:i:s', strtotime("-1 month"))),'recursive' => -1);
                }
                 $productos_count = $this->Producto->find('count',$params);
                 $a_marcas[$id]['Marca']['productos'] = $productos_count;                
@@ -176,7 +178,7 @@ class AppController extends Controller {
             if ($this->request->is('mobile')) {
                 $is_mobile = true;
             }
-            
+            //pr($a_subcategorias);
             $this->set(compact('is_mobile','a_marcas','a_categoria','a_subcategorias'));
         }
     }

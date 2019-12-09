@@ -422,7 +422,8 @@ class ProductosController extends AppController {
             'limit'        => 18,
             'conditions'   => array('Producto.precio >='    => '10',
                 'Producto.stock >='     => '1',
-                'Producto.modificado >='=> date('Y-m-d H:i:s', strtotime("-1 month")) ));
+                'Producto.modificado >='=> date('Y-m-d H:i:s', strtotime("-1 month")) 
+            ));
         $this->Paginator->settings = $conditions;
         
         //Si se busca campo displayField del modelo
