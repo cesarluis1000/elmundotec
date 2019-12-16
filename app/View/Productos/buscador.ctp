@@ -103,15 +103,14 @@
     		<div style="float: right;">
         		<?php $hoy = date("Y-m-d H:i:s"); ?>
     			<?php if (isset($producto['Promocion']['precio']) && $hoy <= $producto['Promocion']['fecha_fin']): ?>				
-    				
-        				<del class="text-price">S/.&nbsp;<?php echo $precio; ?></del>	
-            			<?php 
-                        	   $precio_promocion = $producto['Promocion']['precio']*1.18*1.08;
-                        	   $precio_promocion = number_format(ceil($precio_promocion), 2, '.', '');
-                        ?>
-                        &nbsp;
-            			<b><span class="text-price">S/.&nbsp;<?php echo $precio_promocion; ?></span></b>
-        			
+    					<div class="alert alert-danger" role="alert">
+            				<del class="text-price">S/.&nbsp;<?php echo $precio; ?></del>	
+                			<?php 
+                            	   $precio_promocion = $producto['Promocion']['precio']*1.18*1.08;
+                            	   $precio_promocion = number_format(ceil($precio_promocion), 2, '.', '');
+                            ?>
+                			<b><span class="text-price">S/.&nbsp;<?php echo $precio_promocion; ?></span></b>
+        				</div>
     			<?php else: ?>
         			<span class="text-price">S/.&nbsp;<?php echo $precio; ?></span>
     			<?php endif; ?>
