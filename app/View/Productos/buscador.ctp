@@ -1,22 +1,3 @@
-<style>
-    .row.display-flex {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .row.display-flex > [class*='col-'] {
-      display: flex;
-      flex-direction: column;
-    }
-    
-     /* not requied only for demo * */
-    .row [class*='col-'] {
-      background-colo: #cceeee;
-      background-clip: content-box;
-    }
-    .panel {
-        height: 100%;
-    }
-</style>
 <?php //pr($productos); ?>
 <!-- Buscador -->
 <div class="row">
@@ -100,7 +81,7 @@
     	   $precio = $producto['Producto']['precio']*1.18*$incremento;
     	   $precio = number_format(ceil($precio), 2, '.', '');
     	?>
-    		<div style="float: right;">
+    		<div style="float: right;" class="bottom-align-text">
         		<?php $hoy = date("Y-m-d H:i:s"); ?>
     			<?php if (isset($producto['Promocion']['precio']) && $hoy <= $producto['Promocion']['fecha_fin']): ?>				
     					<div class="alert alert-danger" role="alert">

@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+  .bottom-align-text {
+	position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .nombre_producto{
+	margin-bottom: 40px;
+  }
+  .row.display-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .row.display-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+  
+   /* not requied only for demo * */
+  .row [class*='col-'] {
+    background-colo: #cceeee;
+    background-clip: content-box;
+  }
+  .panel {
+      height: 100%;
+  }
