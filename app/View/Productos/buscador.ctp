@@ -70,30 +70,15 @@
     	    <b><?php echo $this->App->nombreMostrar($producto['Marca']['nombre'],35); ?></b></br>
     	    <?php echo $this->App->nombreMostrar($producto['Producto']['nombre'],35); ?>
     	</p>
-    	<?php 
-    	   $valor =  $producto['Producto']['precio'];
-    	   switch($valor){
-    	       case $valor < 100: $incremento=1.10; break;
-    	       case $valor < 200: $incremento=1.08; break;
-    	       case $valor < 300: $incremento=1.06; break;
-    	       default          : $incremento=1.05;
-    	   }
-    	   $precio = $producto['Producto']['precio']*1.18*$incremento;
-    	   $precio = number_format(ceil($precio), 2, '.', '');
-    	?>
     		<div style="float: right;" class="bottom-align-text">
         		<?php $hoy = date("Y-m-d H:i:s"); ?>
-    			<?php if (isset($producto['Promocion']['precio']) && $hoy <= $producto['Promocion']['fecha_fin']): ?>				
+    			<?php if (isset($producto['Promocion']['fecha_fin']) && $hoy <= $producto['Promocion']['fecha_fin']): ?>				
     					<div class="alert alert-danger" role="alert">
-            				<del class="text-price">S/.&nbsp;<?php echo $precio; ?></del>	
-                			<?php 
-                            	   $precio_promocion = $producto['Promocion']['precio']*1.18*1.08;
-                            	   $precio_promocion = number_format(ceil($precio_promocion), 2, '.', '');
-                            ?>
-                			<b><span class="text-price">S/.&nbsp;<?php echo $precio_promocion; ?></span></b>
+            				<del class="text-price">S/.&nbsp;<?php echo $producto['Producto']['precio']; ?></del>                			
+                			<b><span class="text-price">S/.&nbsp;<?php echo $producto['Promocion']['precio']; ?></span></b>
         				</div>
     			<?php else: ?>
-        			<span class="text-price">S/.&nbsp;<?php echo $precio; ?></span>
+        			<span class="text-price">S/.&nbsp;<?php echo $producto['Producto']['precio']; ?></span>
     			<?php endif; ?>
             </div>
     	</div></div>
