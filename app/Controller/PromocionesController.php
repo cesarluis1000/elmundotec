@@ -42,9 +42,11 @@ class PromocionesController extends AppController {
 	    
 	    $this->loadModel('Producto');
 	    
-	    //$url = "https://www.elmundotec.com/Promociones/migracion";
-	    $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemPromoByCustomer&page=1&sizePag=6000";
-	    //pr($url);
+	    if ($_SERVER['HTTP_HOST'] == "www.elmundotec.com"){
+	        $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemPromoByCustomer&page=1&sizePag=6000";
+	    }else{
+	        $url = "https://www.elmundotec.com/Promociones/migracion";
+	    }
 	    
 	    $ch = curl_init();
 	    curl_setopt ($ch, CURLOPT_URL, $url);
@@ -89,7 +91,7 @@ class PromocionesController extends AppController {
 	                    'recursive' => -1);
 	                $Producto = $this->Producto->find('first',$condicion);
 	                
-	                $condicion1 = array('conditions' => array('Promocion.producto_id' => $Producto['Producto']['id'])
+	                $condicion1 = array('conditions' => array('Promocion.producto_id' => $Producto['Producto']['id'], 'Promocion.estado' => 'A')
 	                    ,'recursive' => -1);
 	                $Promocion = $this->Promocion->find('first',$condicion1);
 	                pr($Promocion);
@@ -98,7 +100,11 @@ class PromocionesController extends AppController {
 	            }
 	            $i++;
 	        }
-	        exit;
+	        
+	        $a_Items = null;
+	        $a_Items[$codigoItem] = $a_Item;
+	        pr($a_Items);
+	        //exit;
 	    }	    
 	    
 	    $hoy = date("Y-m-d H:i:s");
@@ -137,6 +143,7 @@ class PromocionesController extends AppController {
 	        }
 	    }
 	    //pr($a_codigoProducto);
+	    /*
 	    $condicion = array('fields' => array('id'),
 	                       'conditions' => array('Producto.codigo' => $a_codigoProducto),
 	                       'recursive' => -1);
@@ -144,7 +151,9 @@ class PromocionesController extends AppController {
 	    $a_productoId = Set::classicExtract($a_productos, '{n}.Producto.id');
 	    //pr($a_productoId);	    
 	    
-	    $condicion2 = array('conditions' => array('Promocion.producto_id !=' => $a_productoId, 'Promocion.estado' => 'A', 'Promocion.fecha_fin >=' => $hoy),'recursive' => -1);
+	    $condicion2 = array('conditions' => array('Promocion.producto_id !=' => $a_productoId, 'Promocion.estado' => 'A', 'Promocion.fecha_fin <=' => $hoy),'recursive' => -1);
+	    */
+	    $condicion2 = array('conditions' => array('Promocion.estado' => 'A', 'Promocion.fecha_fin <=' => $hoy),'recursive' => -1);
 	    $a_promociones = $this->Promocion->find('all',$condicion2);
 	    $a_promocionId = Set::classicExtract($a_promociones, '{n}.Promocion.id');
 	    
