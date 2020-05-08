@@ -15,7 +15,41 @@ class ProductosController extends AppController {
      */
     public $components = array('Paginator');
     
-    public function migracion_productos($s_codigoItem = null){
+    public function migracion($nroPage = null, $limit = null){
+        $this->layout = false;
+        $this->autoRender = false;
+        ini_set("memory_limit","256M");
+        ini_set('max_execution_time', 0);
+        
+        $this->loadModel('Producto');
+        
+        $page = 1;
+        $sizePag = 6000;
+        
+        if (isset($nroPage) && !empty($nroPage)){
+            $page = $nroPage;
+            $sizePag = 1;
+        }
+        if (isset($limit) && !empty($limit)){
+            $sizePag = $limit;
+        }
+        
+        $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemData&page=$page&sizePag=$sizePag";
+        //pr($url);
+        
+        $ch = curl_init();
+        curl_setopt ($ch, CURLOPT_URL, $url);
+        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+        $json = curl_exec($ch);
+        $this->response->body($json);
+    }
+    
+    public function migracion_productos($s_codigoItem = null, $nroPage = null){
+        
+        //echo 'Current PHP version: ' . phpversion();
+        //exit;
+        
         $this->layout = false;
         $this->autoRender = false;
         ini_set("memory_limit","2048M");
@@ -44,10 +78,21 @@ class ProductosController extends AppController {
             $sizePag = 6000;
         }
         
+        if (isset($nroPage) && !empty($nroPage)){
+            $page = $nroPage;
+            $sizePag = 1;
+        }
+        
         $ip_server = $_SERVER['SERVER_ADDR'];
         pr($ip_server);
-        $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemData&page=$page&sizePag=$sizePag";
         $primer = date("Y-m-d H:i:s");
+        
+        if ($_SERVER['HTTP_HOST'] == "www.elmundotec.com"){
+            $url = "http://ws.deltron.com.pe/xtranet/ecommerce/servicejson/itemRequest.json.php?CodAuthenticate=100011&ServiceName=itemData&page=$page&sizePag=$sizePag";
+        }else{
+            $url = "https://www.elmundotec.com/Productos/migracion/$nroPage";
+        }
+        
         pr($url);
         //exit;
         $ch = curl_init();
@@ -88,15 +133,15 @@ class ProductosController extends AppController {
                 }
                 $i++;
             }
-            exit;
+            if ($nroPage == null){
+                exit;
+            }            
         }
         //pr($a_Items);
         //Migracion de Categorias, Subcategorias, Marcas
         foreach($a_Items AS $codigoItem => $a_Item){
-            pr($codigoItem);
-            pr($a_Item['TechInfoSmall']);
-            //pr($a_Item);
-            //pr($a_Item['Stock']);
+            //pr($codigoItem);
+            //pr($a_Item['TechInfoSmall']);
             
             //Actualizacion de Categoria
             $condicion = array('conditions' => array('Categoria.codigo' => $a_Item['ItemTypeName']),
@@ -156,10 +201,10 @@ class ProductosController extends AppController {
             //pr($Producto);
             
             if( empty($Producto) || (!empty($Producto) && trim($Producto['Producto']['caracteristicas']) == '')){
-                $url = "http://www.deltron.com.pe/modulos/productos/items/postsql_prueba.php?item_number={$codigoItem}&webservis=1";
+                //$url = "http://www.deltron.com.pe/modulos/productos/items/postsql_prueba.php?item_number={$codigoItem}&webservis=1";
                 //$url = "http://www.deltron.com.pe/modulos/productos/items/postsql_prueba.php?item_number=AC128GKTDT50&webservis=1";
                 //pr($Producto);
-                pr($url);
+                //pr($url);
                 
                 $ch = curl_init();
                 curl_setopt ($ch, CURLOPT_URL, $url);
@@ -193,7 +238,7 @@ class ProductosController extends AppController {
                 //if(empty($Producto)) {
                 $url = $a_Item['ImageMedium'];
                 //pr($Producto);
-                pr(date("Y-m-d H:i:s"));
+                //pr(date("Y-m-d H:i:s"));
                 
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL,$url);
@@ -235,16 +280,15 @@ class ProductosController extends AppController {
                     fclose($fp);
                 }
                 
-                pr($url);
-                pr($imagen);
-                pr(date("Y-m-d H:i:s"));
+                //pr($url);
+                //pr($imagen);
             }else{
                 $imagen = $Producto['Producto']['imagen'];
             }
             
             if(empty($Producto)){
                 $Producto['Producto']['codigo'] 			= $codigoItem;
-                $Producto['Producto']['nombre'] 			= $a_Item['TechInfoSmall'];
+                $Producto['Producto']['nombre'] 			= !empty($a_Item['TechInfoSmall'])?$a_Item['TechInfoSmall']:$a_Item['Name'];
                 $Producto['Producto']['descripcion'] 		= $a_Item['TechInfoLarge'];
                 $Producto['Producto']['stock'] 				= $a_Item['Stock'];
                 $Producto['Producto']['precio'] 			= $a_Item['Price'];
@@ -257,11 +301,14 @@ class ProductosController extends AppController {
                 $this->Producto->create();
                 if (!$this->Producto->save($Producto)) {
                     echo 'error Producto';
+                    pr($this->Producto->validationErrors);
+                    //$logs = $this->Producto->getDataSource()->getLog(false, false);
+    	            //$lastLog = end($logs['log']);
                 }
                 $Producto['Producto']['id'] = $this->Producto->getLastInsertId();
             }else{
                 //$Producto['Producto']['nombre'] 		= $a_Item['Name'];
-                $Producto['Producto']['nombre'] 		= $a_Item['TechInfoSmall'];
+                $Producto['Producto']['nombre'] 		= !empty($a_Item['TechInfoSmall'])?$a_Item['TechInfoSmall']:$a_Item['Name'];
                 $Producto['Producto']['descripcion'] 	= $a_Item['TechInfoLarge'];
                 $Producto['Producto']['precio'] 		= $a_Item['Price'];
                 $Producto['Producto']['stock'] 			= $a_Item['Stock'];
@@ -270,6 +317,7 @@ class ProductosController extends AppController {
                 //pr($Producto);
                 if (!$this->Producto->save($Producto)) {
                     echo 'error edicion Producto';
+                    pr($this->Producto->validationErrors);
                 }
             }
             //pr($Producto);
