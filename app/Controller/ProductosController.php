@@ -542,10 +542,10 @@ class ProductosController extends AppController {
             
             $valor =  $producto['Producto']['precio'];
             switch($valor){
-                case $valor < 100: $incremento=1.08; break;
-                case $valor < 200: $incremento=1.07; break;
-                case $valor < 300: $incremento=1.06; break;
-                default          : $incremento=1.05;
+                case $valor < 100: $incremento=1.16; break;
+                case $valor < 200: $incremento=1.14; break;
+                case $valor < 300: $incremento=1.12; break;
+                default          : $incremento=1.10;
             }
             $precio = $producto['Producto']['precio']*1.18*$incremento;
             $precio = number_format(ceil($precio), 2, '.', ',');
@@ -583,10 +583,10 @@ class ProductosController extends AppController {
         
         $valor =  $producto['Producto']['precio'];
         switch($valor){
-            case $valor < 100: $incremento=1.08; break;
-            case $valor < 200: $incremento=1.07; break;
-            case $valor < 300: $incremento=1.06; break;
-            default          : $incremento=1.05;
+            case $valor < 100: $incremento=1.16; break;
+            case $valor < 200: $incremento=1.14; break;
+            case $valor < 300: $incremento=1.12; break;
+            default          : $incremento=1.10;
         }
         
         $producto['Producto']['warningavailability']   = ($producto['Producto']['stock'] > 0)?"InStock":"OutOfStock";
@@ -624,10 +624,10 @@ class ProductosController extends AppController {
         
         $valor =  $producto['Producto']['precio'];
         switch($valor){
-            case $valor < 100: $incremento=1.08; break;
-            case $valor < 200: $incremento=1.07; break;
-            case $valor < 300: $incremento=1.06; break;
-            default          : $incremento=1.05;
+            case $valor < 100: $incremento=1.16; break;
+            case $valor < 200: $incremento=1.14; break;
+            case $valor < 300: $incremento=1.12; break;
+            default          : $incremento=1.10;
         }
         
         $producto['Producto']['warningavailability']   = ($producto['Producto']['stock'] > 0)?"InStock":"OutOfStock";
