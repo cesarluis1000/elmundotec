@@ -91,7 +91,7 @@
         				<span class="h3" itemprop="price" 		 	content="<?php echo $producto['Promocion']['search_precio']; ?>"><?php echo $producto['Promocion']['precio'] ; ?></span>
         				<br>
         				<span class="h6" ><?php echo 'Hasta : '.$producto['Promocion']['fecha_fin']; ?></span>
-        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['search_precio']; ?>" />
+        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['fecha_fin']; ?>" />
         			</strong>
     			<?php else: ?>
         			<strong class="text-price">
@@ -99,7 +99,7 @@
             			<span class="h3" itemprop="price" 		 	content="<?php echo $producto['Producto']['search_precio']; ?>"  class="text-price"><?php echo $producto['Producto']['precio']; ?></span>
             			<br>
         				<span class="h6" ><?php echo 'Hasta : '.$producto['Producto']['fecha_fin']; ?></span>
-        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['search_precio']; ?>" />
+        				<meta itemprop="priceValidUntil" content="<?php echo $producto['Producto']['fecha_fin']; ?>" />
             		</strong>	
     			<?php endif; ?>
     			&nbsp;
